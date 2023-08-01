@@ -74,8 +74,24 @@ res.json({
       }
 
   const updateCategory = async (req, res) => {
+const {_id, CategoryName} = req.body
+
+    const filter = {_id };
+const update = { CategoryName };
+
     try {
-        
+          await connect(process.env.MONGO_URI)    
+         await Category.findOneAndUpdate(filter, update, {
+            new: true
+          });
+
+          const category = await Category.find()
+
+          res.json({
+            message: "Update Suceesfully",
+            category
+          })
+          
     } catch (error) {
         res.status(400).json({
             message: "Error"
@@ -84,13 +100,24 @@ res.json({
   }
 
  const deleteCategory = async (req, res) => {
+    const { _id } = req.body
+
+
     try {
-        
-    } catch (error) {
+        await connect(process.env.MONGO_URI)
+         await Category.deleteOne({ _id })
+         const category = await Category.find()
+res.status(200).json({ 
+    message: "Delete Successfully",
+    category })
+    }
+
+
+    catch (error) {
         res.status(400).json({
-            message: "Error"
+            message: error.message
         })
-    }  
+    }
   }
 
   module.exports = {categoryByName, categoryById, createCategory, updateCategory, deleteCategory }
