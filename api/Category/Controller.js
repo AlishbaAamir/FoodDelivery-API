@@ -19,10 +19,6 @@ const categoryByName = async (req, res) => {
         }  
     }
      
-    
-    
-    
-
  const categoryById = async (req, res) => {
      const { _id } = req.query
 

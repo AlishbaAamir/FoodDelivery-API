@@ -8,6 +8,7 @@ app.use(express.json())
 
  app.use('/api', require('./api/Category/Router'))
  app.use('/api', require('./api/Restuarent/Router'))
+ app.use('/api', require('./api/Items/Router'))
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
