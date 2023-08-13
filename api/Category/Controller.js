@@ -38,8 +38,8 @@ const categoryByName = async (req, res) => {
   }
 
   const createCategory = async (req, res) => {
-    const {CategoryName} = req.body
-    if(!CategoryName){
+    const {CategoryName, CategoryImage} = req.body
+    if(!CategoryName || !CategoryImage){
         res.json({
             message: "Missing Required Field"
         })
@@ -47,14 +47,14 @@ const categoryByName = async (req, res) => {
     else {
         try {
               await connect(process.env.MONGO_URI)
-const checkExisting =await Category.exists({CategoryName})
+const checkExisting =await Category.exists({CategoryName, CategoryImage})
 if(checkExisting){
     res.json({
         message: "Category Already Exists"
     })
 }
 else{
-    await Category.create({CategoryName})
+    await Category.create({CategoryName, CategoryImage})
 const allCategory = await Category.find()
 res.json({
       message: "Db connected",

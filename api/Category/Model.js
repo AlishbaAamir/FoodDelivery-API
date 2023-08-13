@@ -6,6 +6,10 @@ const CategorySchema = new Schema(
             type: String,
             unique: true,
             require: true
+        },
+        CategoryImage:{
+             type : String,
+             require: true
         }
     }
 )
