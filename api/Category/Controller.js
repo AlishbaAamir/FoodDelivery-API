@@ -70,10 +70,10 @@ res.json({
       }
 
   const updateCategory = async (req, res) => {
-const {_id, CategoryName} = req.body
+const {_id, CategoryName, CategoryImage} = req.body
 
     const filter = {_id };
-const update = { CategoryName };
+const update = { CategoryName, CategoryImage };
 
     try {
           await connect(process.env.MONGO_URI)    
