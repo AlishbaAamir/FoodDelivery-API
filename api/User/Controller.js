@@ -21,10 +21,12 @@ const login = async (req, res)=>{
                 })
             }
             else {
+                
                 const decryptPassword = await compare(Password, CheckUser.Password)
+                // console.log(decryptPassword)
                 if (Email == CheckUser.Email && decryptPassword) {
 
-                    const UserData = {
+                      const UserData = {
                         Email: CheckUser.Email,
                         _id: CheckUser._id,
                         Role: CheckUser.Role,
@@ -32,11 +34,11 @@ const login = async (req, res)=>{
                         Joining: CheckUser.Joining
                     }
 
-                    const token = sign(UserData, process.env.JWT_SECRET)
-
+                   
+                    const token = sign( UserData, process.env.JWT_SECRET)
                     res.json({
                         message: "Successfully Logginned",
-                        token
+                        token : token
                     })
                 }
 
