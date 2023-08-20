@@ -28,6 +28,7 @@ const login = async (req, res)=>{
 
                       const UserData = {
                         Email: CheckUser.Email,
+                        Name : CheckUser.Name,
                         _id: CheckUser._id,
                         Role: CheckUser.Role,
                         ProfilePic: CheckUser.ProfilePic,
@@ -70,7 +71,7 @@ const singup = async (req, res)=>{
     else {
         try {
             await connect(process.env.MONGO_URI)
-            const CheckUser = await User.findOne({ Email })
+            const CheckUser = await User.findOne({ Email : Email})
             if (CheckUser) {
                 res.json({
                     message: "User Already Exist"

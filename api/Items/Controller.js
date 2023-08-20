@@ -3,11 +3,34 @@ const { connect } = require('mongoose')
 require('dotenv').config()
  
  const itemByRestuarent = async (req, res) => {
+    const {restuarent} = req.params
+    if(!restuarent){
+        res.status(403).json({message: 'Give the Restaurant'})
+    }
+    else{
+        await connect(process.env.MONGO_URI)
+        const item = await Item.find({restuarent})
+    res.json({ item  })
+    }
+     }
+
+  const itemBycategory = async (req, res) => {
+    const {category} = req.params
+if (!category){
+    res.status(403).json({message: "Please Give MeCategory"})
+}
+else{
+    await connect(process.env.MONGO_URI)
+    const item = await Item.findOne({category})
+    res.json({ item })
+}
+ }
+  const getAllItems = async (req, res) => {
     try {
         await connect(process.env.MONGO_URI)
        const allItem = await Item.find()
    res.json({
-item : allItem
+item :allItem
 
  })
 }
@@ -19,27 +42,9 @@ catch (error) {
    
   }
 
-  const itemByCategory = async (req, res) => {
-    const { categoryByName } = req.query
-
-
-    try {
-        await connect(process.env.MONGO_URI)
-        const item = await Item.findOne({ categoryByName })
-        res.json({ item })
-    }
-
-
-    catch (error) {
-        res.status(400).json({
-            message: error.message
-        })
-    }
-  }
-
   const createItem = async (req, res) => {
-    const {ItemName, Price, Category, Restuarent, thumbnail, description} = req.body
-    if(!ItemName || !Price || !Category || !Restuarent || !thumbnail || !description){
+    const {ItemName, Price, category, restuarent, thumbnail, description} = req.body
+    if(!ItemName || !Price || !category || !restuarent || !thumbnail || !description){
        res.json({
         message: "Missing Required Field"
        })
@@ -48,14 +53,14 @@ catch (error) {
         
         try {
            await connect(process.env.MONGO_URI)
-           const checkExisting =await Item.exists({ItemName, Price, Category, Restuarent, thumbnail, description})
+           const checkExisting =await Item.exists({ItemName, Price, category, restuarent, thumbnail, description})
            if(checkExisting){
             res.json({
                 message : "Item Already Existing"
             })
            }
            else{
-            await Item.create({ItemName, Price, Category, Restuarent, thumbnail, description})
+            await Item.create({ItemName, Price, category, restuarent, thumbnail, description})
             const allItem = await Item.find()
             res.status(400).json({
             message:"conn",
@@ -119,4 +124,4 @@ res.status(200).json({
   }
 
 
-  module.exports = {itemByRestuarent, itemByCategory, createItem, updateItem, deleteItem}
+  module.exports = {itemByRestuarent, itemBycategory, getAllItems, createItem, updateItem, deleteItem}

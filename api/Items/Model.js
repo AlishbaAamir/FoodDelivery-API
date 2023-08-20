@@ -11,11 +11,11 @@ const ItemSchema = new Schema(
             type: String,
             required: true
         },
-        Category:{
+        category:{
             type: String,
             require: true
         },
-        Restuarent:{
+        restuarent:{
             type: String,
         require: true
         },

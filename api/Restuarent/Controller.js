@@ -3,7 +3,7 @@ const { connect } = require('mongoose')
 require('dotenv').config()
 
 
-const restuarentByName = async (req, res) => {
+const getAllRestuarent = async (req, res) => {
     try {
         await connect(process.env.MONGO_URI)
        const allRestuarent = await Restuarent.find()
@@ -18,6 +18,23 @@ catch (error) {
       })
   }  
    
+  }
+  const restuarentByName = async (req, res) => {
+    const {  RestuarentName } = req.query
+
+
+    try {
+        await connect(process.env.MONGO_URI)
+        const restuarent = await Restuarent.findOne({ RestuarentName })
+        res.json({ restuarent })
+    }
+
+
+    catch (error) {
+        res.status(400).json({
+            message: error.message
+        })
+    }
   }
 
  const restuarentById = async (req, res) => {
@@ -37,6 +54,7 @@ catch (error) {
         })
     }
   }
+  
 
  const createRestuarent = async (req, res) => {
     const {RestuarentName, RestuarentImage,City, Adress } = req.body
@@ -120,4 +138,4 @@ res.status(200).json({
     }
   }
 
-  module.exports = {restuarentByName, restuarentById, createRestuarent, updateRestuarent, deleteRestuarent }
+  module.exports = {getAllRestuarent, restuarentById, restuarentByName, createRestuarent, updateRestuarent, deleteRestuarent}
